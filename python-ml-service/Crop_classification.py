@@ -21,7 +21,7 @@ def crop_class(arr):
 
     Model = CropModel(in_=7,hidden=64,out=22).to(device)
 
-    Model.load_state_dict(torch.load(f="Crop_models\\Crop_Classification_modelv5.pth"))
+    Model.load_state_dict(torch.load(f="python-ml-service\\Crop_models\\Crop_Classification_modelv5.pth"))
 
     data = np.array(arr)
     data_tensor = torch.from_numpy(data).float().to(device)
