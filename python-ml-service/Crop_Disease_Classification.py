@@ -78,7 +78,7 @@ def imageclassifier(ar):
     ])
     lis = []
     
-    path = "SIH-Annadata\\uploads"  # img to be uploaded here!
+    path = "test"  # img to be uploaded here!
     for root, dirs, files in os.walk(path):
         for file_name in ar:
                 file_path = os.path.join(root,file_name)
