@@ -66,7 +66,7 @@ def imageclassifier(ar):
                       output_shape=len(class_dict))
 
 
-    loaded_model_2.load_state_dict(torch.load(f="python-ml-service\\Super_models\\Super_Modelv5.pth"))
+    loaded_model_2.load_state_dict(torch.load(f="Super_models\\Super_Modelv5.pth"))
 
 
     loaded_model_2 = loaded_model_2.to(device)
