@@ -66,7 +66,7 @@ def imageclassifier(ar):
                       output_shape=len(class_dict))
 
     model_pathd = path= os.path.join("python-ml-service", "Crop_models", "Crop_Classification_modelv5.pth")
-    loaded_model_2.load_state_dict(torch.load(f=model_pathd))
+    loaded_model_2.load_state_dict(torch.load(model_pathd, map_location=torch.device("cpu")))
 
 
     loaded_model_2 = loaded_model_2.to(device)
