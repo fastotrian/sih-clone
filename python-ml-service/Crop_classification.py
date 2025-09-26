@@ -5,7 +5,7 @@ import pandas as pd
 import numpy as np
 
 def crop_class(arr):
-    device = "cuda"
+    device = "cpu"
     class CropModel(nn.Module):
       def __init__(self,in_,hidden,out):
         super().__init__()
