@@ -2,6 +2,7 @@ flask
 flask-cors
 pymongo
 torch
+torchvision
 pillow
 matplotlib
 pandas
