@@ -1,13 +1,12 @@
 from pathlib import Path
-import random
 from PIL import Image
 import torch
 from torch import nn
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
-import torchvision
+from io import BytesIO
 import os
-import numpy
+import requests
 
 
 def imageclassifier(ar):
@@ -65,7 +64,7 @@ def imageclassifier(ar):
                       hidden_units=64, 
                       output_shape=len(class_dict))
 
-    model_pathd = path= os.path.join("Crop_models", "Crop_Classification_modelv5.pth")
+    model_pathd = os.path.join("Super_models", "Super_Modelv5.pth")
     loaded_model_2.load_state_dict(torch.load(model_pathd, map_location=torch.device("cpu")))
 
 
@@ -78,20 +77,21 @@ def imageclassifier(ar):
     ])
     lis = []
     
-    path = "test"  # img to be uploaded here!
-    for root, dirs, files in os.walk(path):
-        for file_name in ar:
-                file_path = os.path.join(root,file_name)
-                custom_image_uint8 = torchvision.io.read_image(str(file_path))
-                custom_image = custom_image_uint8 / 255.
-                custom_image_transformed = custom_image_transform(custom_image)
-                loaded_model_2.eval()
-                with torch.inference_mode():
-                    custom_image_pred = loaded_model_2(custom_image_transformed.unsqueeze(dim=0).to(device))
-                custom_image_pred_probs = torch.softmax(custom_image_pred, dim=1)
-                custom_image_pred_label = torch.argmax(custom_image_pred_probs, dim=1)
-                for key, value in class_dict.items():
-                    if value == custom_image_pred_label:
-                        lis.append((key,custom_image_pred_probs.max().item()))
+
+    for file_name in ar:
+            response = requests.get(file_name)
+            response.raise_for_status()  # ensure no download error
+            image = Image.open(BytesIO(response.content)).convert("RGB")
+            transform = transforms.ToTensor()
+            image_tensor = transform(image)
+            custom_image_transformed = custom_image_transform(image_tensor)
+            loaded_model_2.eval()
+            with torch.inference_mode():
+                custom_image_pred = loaded_model_2(custom_image_transformed.unsqueeze(dim=0).to(device))
+            custom_image_pred_probs = torch.softmax(custom_image_pred, dim=1)
+            custom_image_pred_label = torch.argmax(custom_image_pred_probs, dim=1)
+            for key, value in class_dict.items():
+                if value == custom_image_pred_label:
+                    lis.append((key,custom_image_pred_probs.max().item()))
             
-    return lis         
+    return lis
