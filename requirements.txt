@@ -1,8 +1,6 @@
 flask
 flask-cors
 pymongo
-torch==2.8.0
-torchvision==0.23.0
 pillow
 matplotlib
 pandas
