@@ -9,6 +9,4 @@ pandas
 numpy
 google-generativeai
 certifi
-io
-PIL
 requests
