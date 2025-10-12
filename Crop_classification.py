@@ -21,7 +21,7 @@ def crop_class(arr):
         return self.stackmf(x)
 
     Model = CropModel(in_=7,hidden=64,out=22).to(device)
-    path= os.path.join("python-ml-service", "Crop_models", "Crop_Classification_modelv5.pth")
+    path= os.path.join("Crop_models", "Crop_Classification_modelv5.pth")
     Model.load_state_dict(torch.load(path,map_location=torch.device("cpu")))
 
     data = np.array(arr)
